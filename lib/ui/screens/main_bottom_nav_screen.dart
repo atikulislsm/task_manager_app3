@@ -8,6 +8,7 @@ import 'package:task_manager_app/utils/assets_path.dart';
 import 'package:task_manager_app/widget/tm_app_bar_widget.dart';
 
 class MainBottomNavScreen extends StatefulWidget {
+  static const String name='/home';
   const MainBottomNavScreen({super.key});
 
   @override

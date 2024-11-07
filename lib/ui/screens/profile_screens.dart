@@ -164,7 +164,7 @@ class _ProfileScreensState extends State<ProfileScreens> {
       showSnackBarMassage(context, 'Profile Updated');
 
     }else{
-      showSnackBarMassage(context, 'Profile Updated');
+      showSnackBarMassage(context, response.errorMassage, true);
     }
   }
   Widget _buildPhotoPicker() {

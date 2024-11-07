@@ -23,7 +23,8 @@ class NetworkCaller {
         return NetworkResponse(
             isSuccess: true,
             statusCode: response.statusCode,
-            responseData: decodData);
+            responseData: decodData
+        );
       }else if( response.statusCode==401){
         _moveToLogin();
         return NetworkResponse(

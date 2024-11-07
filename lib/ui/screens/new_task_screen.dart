@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:task_manager_app/data/model/network_response.dart';
-import 'package:task_manager_app/data/model/task_list_model.dart';
-import 'package:task_manager_app/data/model/task_model.dart';
 import 'package:task_manager_app/data/model/task_status_count_model.dart';
 import 'package:task_manager_app/data/model/task_status_model.dart';
 import 'package:task_manager_app/data/service/network_caller.dart';
 import 'package:task_manager_app/data/utils/uris.dart';
+import 'package:task_manager_app/ui/controller/get_task_status_count_controller.dart';
+import 'package:task_manager_app/ui/controller/new_task_list_controller.dart';
 import 'package:task_manager_app/ui/screens/add_new_task_screen.dart';
 import 'package:task_manager_app/widget/center_circular_progress_indecator.dart';
 import 'package:task_manager_app/widget/snack_bar_massage.dart';
@@ -20,10 +22,10 @@ class NewTaskScreen extends StatefulWidget {
 }
 class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
-  bool _inprogress=false;
-  bool _taskListCountInprogress=false;
-  List<TaskModel> _newTaskList=[];
+
   List<TaskStatusModel> _taskStatusCountList=[];
+  final NewTaskListController _newTaskListController=Get.find<NewTaskListController>();
+  final GetTaskStatusCountController _getTaskStatusCountController=Get.find<GetTaskStatusCountController>();
 
   void initState() {
     super.initState();
@@ -42,22 +44,26 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           children: [
             _buildSummarySection(),
             Expanded(
-              child: Visibility(
-                visible: !_inprogress,
-                replacement: const CenterCircularProgressIndecator(),
-                child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return TaskCard(
-                        taskModel: _newTaskList[index],
-                        onReffressList: _getNewTaskList,
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, index) {
-                      return const SizedBox(
-                        height: 8,
-                      );
-                    },
-                    itemCount: _newTaskList.length),
+              child: GetBuilder<NewTaskListController>(
+                builder: (controller) {
+                  return Visibility(
+                    visible: !controller.inprogress,
+                    replacement: const CenterCircularProgressIndecator(),
+                    child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          return TaskCard(
+                            taskModel: controller.taskList[index],
+                            onReffressList: _getNewTaskList,
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, index) {
+                          return const SizedBox(
+                            height: 8,
+                          );
+                        },
+                        itemCount: controller.taskList.length),
+                  );
+                }
               ),
             )
           ],
@@ -75,15 +81,19 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   Widget _buildSummarySection() {
     return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Visibility(
-              visible: _taskListCountInprogress==false,
-              replacement: CenterCircularProgressIndecator(),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: _getTaskSummaryCardList(),
-                ),
-              ),
+            child: GetBuilder<GetTaskStatusCountController>(
+              builder: (controller) {
+                return Visibility(
+                  visible: !controller.inprogress,
+                  replacement: CenterCircularProgressIndecator(),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: _getTaskSummaryCardList(),
+                    ),
+                  ),
+                );
+              }
             ),
           );
   }
@@ -105,40 +115,19 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     }
   }
   Future<void> _getNewTaskList() async{
-    _newTaskList.clear();
-    _inprogress=true;
-    setState(() {
-    });
-    final NetworkResponse response=await NetworkCaller.getRequest(url: Urls.newTaskList);
-
-    if(response.isSuccess){
-    final TaskListModel taskListModel=TaskListModel.fromJson(response.responseData);
-    _newTaskList=taskListModel.taskList?? [];
-
-    }else{
-      showSnackBarMassage(context, response.errorMassage, true);
+    final bool result=await _newTaskListController.getNewTaskList();
+    if(result==false){
+      showSnackBarMassage(context, _newTaskListController.errorMassage!, true);
     }
-    _inprogress=false;
-    setState(() {
-    });
   }
-  Future<void> _getTaskStatusCount() async{
-    _taskStatusCountList.clear();
-    _taskListCountInprogress=true;
-    setState(() {
-    });
-    final NetworkResponse response=await NetworkCaller.getRequest(url: Urls.taskStatusCount);
+  Future<void> _getTaskStatusCount() async {
+    final bool result = await _getTaskStatusCountController
+        .getTaskStatusCount();
 
-    if(response.isSuccess){
-    final TaskStatusCountModel taskStatusCountModel=TaskStatusCountModel.fromJson(response.responseData);
-    _taskStatusCountList=taskStatusCountModel.taskStatusCountList?? [];
-
-    }else{
-      showSnackBarMassage(context, response.errorMassage, true);
+    if (result == false) {
+      showSnackBarMassage(
+          context, _getTaskStatusCountController.errorMassage!, true);
     }
-    _taskListCountInprogress=false;
-    setState(() {
-    });
   }
 }
 

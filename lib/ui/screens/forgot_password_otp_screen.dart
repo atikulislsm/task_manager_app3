@@ -146,7 +146,7 @@ class _ForgotPasswordOTPVerificationState extends State<ForgotPasswordOTPVerific
     });
     if(response.isSuccess){
       Navigator.push(context, MaterialPageRoute(builder: (context){
-        return ResetPasswordScreen(email: email,otp: int.parse(_getOTPTEController.text),); // ei kkhane otp ta int hoya ase
+        return ResetPasswordScreen(email: email,otp: int.parse(_getOTPTEController.text),); // ei kkhane otp ta String hoya ase
       }));
     }else{
       showSnackBarMassage(context, response.errorMassage,true);
