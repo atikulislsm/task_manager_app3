@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager_app/data/model/network_response.dart';
 import 'package:task_manager_app/data/service/network_caller.dart';
 import 'package:task_manager_app/data/utils/uris.dart';
@@ -153,10 +154,7 @@ class _ForgotPasswordOTPVerificationState extends State<ForgotPasswordOTPVerific
     }
   }
   void _onTapSignInButton(){
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-      return SignInScreen();
-    }), (_) => false);
-
+    Get.offAllNamed(SignInScreen.name);
 
   }
 

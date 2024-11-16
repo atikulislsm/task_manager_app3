@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manager_app/control_binder.dart';
+import 'package:task_manager_app/ui/screens/forgot_password_email_varification.dart';
 import 'package:task_manager_app/ui/screens/main_bottom_nav_screen.dart';
+import 'package:task_manager_app/ui/screens/reset_password_screen.dart';
+import 'package:task_manager_app/ui/screens/sign_in_screen.dart';
+import 'package:task_manager_app/ui/screens/sign_up_screen.dart';
 import 'package:task_manager_app/ui/screens/splash_screen.dart';
 import 'package:task_manager_app/utils/apps_color.dart';
 
@@ -30,6 +34,9 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
       routes: {
         SplashScreen.name:(context) => const SplashScreen(),
         MainBottomNavScreen.name:(context) => const MainBottomNavScreen(),
+        SignUpScreen.name:(context) => const SignUpScreen(),
+        EmailVerification.name:(context) => const EmailVerification(),
+        SignInScreen.name:(context) => const SignInScreen(),
       },
     );
   }

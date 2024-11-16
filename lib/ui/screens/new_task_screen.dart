@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:task_manager_app/data/model/network_response.dart';
-import 'package:task_manager_app/data/model/task_status_count_model.dart';
 import 'package:task_manager_app/data/model/task_status_model.dart';
-import 'package:task_manager_app/data/service/network_caller.dart';
-import 'package:task_manager_app/data/utils/uris.dart';
 import 'package:task_manager_app/ui/controller/get_task_status_count_controller.dart';
 import 'package:task_manager_app/ui/controller/new_task_list_controller.dart';
 import 'package:task_manager_app/ui/screens/add_new_task_screen.dart';
@@ -23,7 +19,6 @@ class NewTaskScreen extends StatefulWidget {
 class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
 
-  List<TaskStatusModel> _taskStatusCountList=[];
   final NewTaskListController _newTaskListController=Get.find<NewTaskListController>();
   final GetTaskStatusCountController _getTaskStatusCountController=Get.find<GetTaskStatusCountController>();
 
@@ -99,7 +94,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   }
   List<TaskSummaryCard> _getTaskSummaryCardList(){
     List<TaskSummaryCard> taskSummaryCardList=[];
-      for(TaskStatusModel t in _taskStatusCountList){
+      for(TaskStatusModel t in _getTaskStatusCountController.taskStatusCountList){
         taskSummaryCardList.add(TaskSummaryCard(title: t.sId!, count: t.sum! ?? 0));
       }
       return taskSummaryCardList;

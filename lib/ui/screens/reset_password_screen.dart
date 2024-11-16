@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager_app/data/model/network_response.dart';
 import 'package:task_manager_app/data/service/network_caller.dart';
 import 'package:task_manager_app/data/utils/uris.dart';
@@ -10,6 +11,7 @@ import 'package:task_manager_app/widget/screen_background.dart';
 import 'package:task_manager_app/widget/snack_bar_massage.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
+  static const String name='/resetPasswordScreen';
   const ResetPasswordScreen({super.key, required this.email, required this.otp});
   final String email;
   final int otp;
@@ -156,17 +158,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     setState(() {
     });
     if(response.isSuccess){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-        return SignInScreen();
-      }), (_)=> false);
+      Get.offAllNamed(SignInScreen.name);
     }else{
       showSnackBarMassage(context, response.errorMassage, true);
     }
   }
   void _onTapSignInButton(){
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){
-      return SignInScreen();
-    }), (_)=> false);
+    Get.offAllNamed(SignInScreen.name);
   }
 
 }

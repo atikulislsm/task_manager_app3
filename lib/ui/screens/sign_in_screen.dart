@@ -12,6 +12,7 @@ import 'package:task_manager_app/widget/snack_bar_massage.dart';
 import 'package:task_manager_app/ui/controller/sign_incontroller.dart';
 
 class SignInScreen extends StatefulWidget {
+  static const String name='/signIn';
   const SignInScreen({super.key});
 
   @override
@@ -160,17 +161,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
     }
   }
-
-
   void _onTapForgotPassword() {
-    Navigator.push(context, MaterialPageRoute(builder: (context){
-      return EmailVerification();
-    }));
+    Get.toNamed(EmailVerification.name);
   }
 
   void _onTapSignUp() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return SignUpScreen();
-    }));
+    Get.toNamed(SignUpScreen.name);
   }
 }

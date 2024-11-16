@@ -1,15 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager_app/data/model/network_response.dart';
 import 'package:task_manager_app/data/service/network_caller.dart';
 import 'package:task_manager_app/data/utils/uris.dart';
 import 'package:task_manager_app/ui/screens/forgot_password_otp_screen.dart';
+import 'package:task_manager_app/ui/screens/sign_in_screen.dart';
 import 'package:task_manager_app/utils/apps_color.dart';
 import 'package:task_manager_app/widget/center_circular_progress_indecator.dart';
 import 'package:task_manager_app/widget/screen_background.dart';
 import 'package:task_manager_app/widget/snack_bar_massage.dart';
 
 class EmailVerification extends StatefulWidget {
+  static const String name='/emailVerification';
   const EmailVerification({super.key});
 
   @override
@@ -133,7 +136,7 @@ class _EmailVerificationState extends State<EmailVerification> {
     }
 }
   void _onTapSignInButton(){
-    Navigator.pop(context);
+    Get.back();
   }
 
 }
